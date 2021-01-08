@@ -7,8 +7,11 @@ import Content from "./components/content";
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      subject: { title: "WEB", sub: "this is a amazing things that you have to keep in mind" },
+      mode: "read",
+      subject: { title: "WEB", desc: "this is a amazing things that you have to keep in mind" },
+      welcome: { title: "Welcome", desc: "hello,react!!" },
       content: [
         { id: 1, title: "HTML", desc: "HTML is HyperText" },
         { id: 2, title: "CSS", desc: "CSS is custom ..." },
@@ -18,11 +21,26 @@ class App extends Component {
 
   }
   render() {
+    let _title, _desc = null;
+    if (this.state.mode === "welcome") {
+      _title = this.state.welcome.title
+      _desc = this.state.welcome.desc
+    } else if (this.state.mode === "read") {
+      _title = this.state.content[0].title
+      _desc = this.state.content[0].desc
+    }
     return (
       <div className="App">
-        <Header title={this.state.subject.title} sub={this.state.subject.sub}></Header>
+        <Header
+          title={this.state.subject.title}
+          subs={this.state.subject.desc}
+          onChangePage={function () {
+            this.setState({
+              mode: "welcome"
+            })
+          }.bind(this)}></Header>
         <List content={this.state.content}></List>
-        <Content titel="HTML" subs="this is a amazing"></Content>
+        <Content title={_title} subs={_desc}></Content>
       </div>
     );
   }
