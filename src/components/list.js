@@ -1,13 +1,15 @@
 import { Component } from 'react';
 
 class List extends Component {
+
   render() {
+    let HTMLArray = this.props.content
+      .map(element => <li key={element.id}><a href={"/content/" + element.id}>{element.title}</a></li>)
+
     return (
       <nav>
         <ul>
-          <li><a href="1.html">HTML</a></li>
-          <li><a href="2.html">CSS</a></li>
-          <li><a href="3.html">JavaScript</a></li>
+          {HTMLArray}
         </ul>
       </nav>
     )
