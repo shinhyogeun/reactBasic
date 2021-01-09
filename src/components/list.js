@@ -1,7 +1,9 @@
 import { Component } from 'react';
 
 class List extends Component {
-
+  shouldComponentUpdate(newProps, newState) {
+    return newProps.data === this.props.data
+  }
   render() {
     let HTMLArray = this.props.content
       .map(element =>
