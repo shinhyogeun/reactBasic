@@ -1,31 +1,33 @@
 import { Component } from 'react';
 
 class List extends Component {
-  shouldComponentUpdate(newProps, newState) {
-    return newProps.data === this.props.data
-  }
   render() {
-    let HTMLArray = this.props.content
-      .map(element =>
-        <li key={element.id}>
+    var lists = [];
+    var data = this.props.content;
+    console.log("here!!!", data)
+    var i = 0;
+    while (i < data.length) {
+      lists.push(
+        <li key={data[i].id}>
           <a
-            href={"/content/" + element.id}
-            data-id={element.id}
-            onClick={function (id, e) {
+            href={"/content/" + data[i].id}
+            data-id={data[i].id}
+            onClick={function (e) {
               e.preventDefault();
-              this.props.onChangePage(id);
-            }.bind(this, element.id)}>
-            {element.title}
-          </a>
-        </li>)
-
+              this.props.onChangePage(e.target.dataset.id);
+            }.bind(this)}
+          >{data[i].title}</a>
+        </li>);
+      console.log(data[i].title)
+      i = i + 1;
+    }
     return (
       <nav>
         <ul>
-          {HTMLArray}
+          {lists}
         </ul>
       </nav>
-    )
+    );
   }
 }
 

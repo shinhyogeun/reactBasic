@@ -46,7 +46,7 @@ class UpdateContent extends Component {
                         onChange={this.inputFormHandler}
                     >
                     </textarea></p>
-                    <p><button type="submit">갱신</button></p>
+                    <p><input type="submit"></input></p>
                 </form>
             </article>
         )

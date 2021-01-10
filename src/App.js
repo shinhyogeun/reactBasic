@@ -8,7 +8,6 @@ import UpdateContent from "./components/UpdateContent";
 import Control from "./components/control";
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.maxIndex = 3;
@@ -25,63 +24,64 @@ class App extends Component {
     };
   }
 
+  getReadContent() {
+    let i = 0
+    while (i < this.state.content.length) {
+      let data = this.state.content[i]
+      if (data.id === this.state.selectedContentID) {
+        return data
+        break;
+      }
+      i += 1
+    }
+  }
+
   getContent() {
     let _title, _desc, _article = null;
+
     if (this.state.mode === "welcome") {
       _title = this.state.welcome.title
       _desc = this.state.welcome.desc
       _article = <ReadContent title={_title} subs={_desc}></ReadContent>
 
     } else if (this.state.mode === "read") {
-      let _content = this.getReadContent()
+      var _content = this.getReadContent()
       _article = <ReadContent title={_content.title} subs={_content.desc}></ReadContent>
 
     } else if (this.state.mode === "create") {
       _article = <CreateContent onSubmit={function (_title, _desc) {
         this.maxIndex += 1;
-        let replacedContent = this.state.content.concat({ id: this.maxIndex, title: _title, desc: _desc });
-        this.setState({ content: replacedContent })
+        let replacedContent = Array.from(this.state.content)
+        replacedContent.push({ id: this.maxIndex, title: _title, desc: _desc });
+        this.setState({
+          content: replacedContent,
+          mode: "read",
+          selectedContentID: this.maxIndex
+        })
       }.bind(this)}></CreateContent>
 
     } else if (this.state.mode === "update") {
-      let _content = this.getReadContent();
-      _article = <UpdateContent data={_content} onSubmit={
-        function (_id, _title, _desc) {
-
-          console.log(this.state.content)
-          let contents = Array.from(this.state.content)
-          console.log(contents)
-
-          let i = 0
-          while (i < contents.length) {
-            if (contents[i].id === _id) {
-              contents[i] = { id: _id, titel: _title, desc: _desc };
-              break;
-            }
-            i += 1
+      _content = this.getReadContent();
+      _article = <UpdateContent data={_content} onSubmit={function (_id, _title, _desc) {
+        let contents = Array.from(this.state.content)
+        let i = 0
+        console.log(i)
+        while (i < contents.length) {
+          if (contents[i].id === _id) {
+            contents[i] = { id: _id, title: _title, desc: _desc };
+            break;
           }
-          console.log(contents)
-
-          this.setState({ content: contents })
-        }.bind(this)
+          i += 1
+        }
+        this.setState({
+          content: contents,
+          mode: 'read'
+        })
+      }.bind(this)
       }></UpdateContent >
     }
 
     return _article;
-  }
-
-  getReadContent() {
-    let i = 0
-
-    while (i < this.state.content.length) {
-      let data = this.state.content[i]
-
-      if (data.id === this.state.selectedContentID) {
-        return data
-      }
-
-      i += 1
-    }
   }
 
   render() {
