@@ -65,7 +65,6 @@ class App extends Component {
       _article = <UpdateContent data={_content} onSubmit={function (_id, _title, _desc) {
         let contents = Array.from(this.state.content)
         let i = 0
-        console.log(i)
         while (i < contents.length) {
           if (contents[i].id === _id) {
             contents[i] = { id: _id, title: _title, desc: _desc };
@@ -106,7 +105,26 @@ class App extends Component {
             })
           }.bind(this)}></List>
         <Control onChangeMode={function (_mode) {
-          this.setState({ mode: _mode })
+          if (_mode === "delete") {
+            if (window.confirm("정말로 삭제하시겠습니까?")) {
+              let contents = Array.from(this.state.content);
+              let i = 0;
+              while (i < contents.length) {
+                if (contents[i].id === this.state.selectedContentID) {
+                  contents.splice(i, 1);
+                  console.log("asdAS", contents)
+                  break;
+                }
+                i += 1
+              }
+              this.setState({
+                mode: "welcome",
+                content: contents
+              })
+            }
+          } else {
+            this.setState({ mode: _mode })
+          }
         }.bind(this)}></Control>
         {this.getContent()}
       </div>
