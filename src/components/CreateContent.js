@@ -10,7 +10,7 @@ class CreateContent extends Component {
                     this.props.onSubmit(
                         e.target.title.value,
                         e.target.desc.value
-                    );
+                    )
                 }.bind(this)}>
                     <p><input type="text" name="title" placeholder="titile"></input></p>
                     <p><textarea name="desc" placeholder="description"></textarea></p>
